@@ -62,7 +62,9 @@ class PinFieldAutoFill extends StatefulWidget {
     this.textInputAction = TextInputAction.done,
     this.focusNode,
     this.controller,
-    this.decoration = const UnderlineDecoration(colorBuilder: FixedColorBuilder(Colors.black), textStyle: TextStyle(color: Colors.black)),
+    this.decoration = const UnderlineDecoration(
+        colorBuilder: FixedColorBuilder(Colors.black),
+        textStyle: TextStyle(color: Colors.black)),
     this.onCodeSubmitted,
     this.onCodeChanged,
     this.currentCode,
@@ -123,7 +125,8 @@ class _PinFieldAutoFillState extends State<PinFieldAutoFill> with CodeAutoFill {
       controller = widget.controller;
     }
 
-    if (widget.currentCode != oldWidget.currentCode || widget.currentCode != code) {
+    if (widget.currentCode != oldWidget.currentCode ||
+        widget.currentCode != code) {
       code = widget.currentCode;
       codeUpdated();
     }
@@ -179,7 +182,9 @@ class _PhoneFieldHintState extends State<PhoneFieldHint> {
 
   @override
   void initState() {
-    _controller = widget.controller ?? widget.child?.controller ?? TextEditingController(text: '');
+    _controller = widget.controller ??
+        widget.child?.controller ??
+        TextEditingController(text: '');
     _focusNode = widget.focusNode ?? widget.child?.focusNode ?? FocusNode();
     _focusNode.addListener(() async {
       if (_focusNode.hasFocus && !_hintShown) {
@@ -222,6 +227,7 @@ class _PhoneFieldHintState extends State<PhoneFieldHint> {
 
   Future<void> _askPhoneHint() async {
     String hint = await _autoFill.hint;
+    print(hint);
     _controller.value = TextEditingValue(text: hint ?? '');
   }
 }
@@ -280,7 +286,8 @@ mixin CodeAutoFill {
   void codeUpdated();
 }
 
-class _TextFieldPinAutoFillState extends State<TextFieldPinAutoFill> with CodeAutoFill {
+class _TextFieldPinAutoFillState extends State<TextFieldPinAutoFill>
+    with CodeAutoFill {
   final TextEditingController _textController = TextEditingController(text: '');
 
   @override
@@ -319,7 +326,8 @@ class _TextFieldPinAutoFillState extends State<TextFieldPinAutoFill> with CodeAu
 
   @override
   void didUpdateWidget(TextFieldPinAutoFill oldWidget) {
-    if (widget.currentCode != oldWidget.currentCode || widget.currentCode != _getCode()) {
+    if (widget.currentCode != oldWidget.currentCode ||
+        widget.currentCode != _getCode()) {
       code = widget.currentCode;
       codeUpdated();
     }

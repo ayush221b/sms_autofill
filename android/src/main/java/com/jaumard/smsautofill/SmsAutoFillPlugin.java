@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.credentials.Credential;
@@ -60,7 +61,10 @@ public class SmsAutoFillPlugin implements MethodCallHandler {
                     if (resultCode == Activity.RESULT_OK && data != null) {
                         Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
                         final String phoneNumber = credential.getId();
-                        pendingHintResult.success(phoneNumber);
+                        TelephonyManager tm = (TelephonyManager) activity.getApplicationContext()
+                                .getSystemService(Context.TELEPHONY_SERVICE);
+                        String isoCode = tm.getSimCountryIso();
+                        pendingHintResult.success(phoneNumber+"%"+isoCode);
                     } else {
                         pendingHintResult.success(null);
                     }
